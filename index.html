@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leben in Deutschland — Тренажёр лексики</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#e9e7e0;
+  --paper-raised:#f4f3ee;
+  --paper-sunk:#e2e0d8;
+  --ink:#17161a;
+  --ink-soft:#54524c;
+  --ink-faint:#8b897f;
+  --gold:#d99a06;
+  --gold-deep:#b07d05;
+  --red:#bf2833;
+  --black-band:#141414;
+  --line:#d2d0c6;
+  --line-strong:#c3c1b6;
+  --good:#2f7d4f;
+  --shadow:0 1px 2px rgba(20,18,16,.05), 0 12px 30px -14px rgba(20,18,16,.28);
+  --shadow-sm:0 1px 2px rgba(20,18,16,.06), 0 4px 10px -6px rgba(20,18,16,.18);
+  --r:12px;
+  --sans:"IBM Plex Sans", system-ui, sans-serif;
+  --disp:"Archivo", "IBM Plex Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.flagline{height:4px;width:100%;
+  background:linear-gradient(90deg,var(--black-band) 0 33.33%,var(--red) 33.33% 66.66%,var(--gold) 66.66% 100%);}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+.topbar{padding:22px 0 18px;border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px;flex:1 1 260px;min-width:0}
+.mark{flex:0 0 auto;width:34px;height:34px;border-radius:7px;overflow:hidden;
+  box-shadow:0 0 0 1px var(--line-strong);display:block}
+.title h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.15rem,3.4vw,1.7rem);
+  letter-spacing:.14em;text-transform:uppercase;margin:0;line-height:1.02}
+.title p{margin:3px 0 0;font-size:.82rem;color:var(--ink-soft);letter-spacing:.01em}
+.head-tools{display:flex;align-items:center;gap:14px;flex:0 0 auto;margin-left:auto}
+.lang{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;background:var(--paper-raised)}
+.lang button{font-family:var(--mono);font-size:.78rem;font-weight:600;letter-spacing:.06em;
+  border:0;background:transparent;color:var(--ink-faint);padding:6px 13px;cursor:pointer;transition:all .15s}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper-raised)}
+.progress-box{min-width:150px}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);letter-spacing:.02em}
+.progress-top b{color:var(--ink);font-weight:600}
+.bar{height:6px;margin-top:6px;background:var(--paper-sunk);border-radius:999px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.bar>span{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-deep));transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.reset{background:none;border:0;color:var(--ink-faint);font-family:var(--sans);font-size:.76rem;
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:2px 0}
+.reset:hover{color:var(--red)}
+
+/* ---------- mode switch ---------- */
+.modes{display:flex;gap:2px;margin:18px 0 0;background:var(--paper-sunk);
+  padding:3px;border-radius:11px;box-shadow:inset 0 0 0 1px var(--line);max-width:100%;
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.modes::-webkit-scrollbar{display:none}
+.modes button{font-family:var(--disp);font-weight:700;font-size:.86rem;letter-spacing:.04em;white-space:nowrap;flex:0 0 auto;
+  border:0;background:transparent;color:var(--ink-soft);padding:9px 18px;border-radius:8px;cursor:pointer;transition:all .18s}
+.modes button:hover{color:var(--ink)}
+.modes button[aria-selected="true"]{background:var(--paper-raised);color:var(--ink);box-shadow:var(--shadow-sm)}
+
+/* ---------- filters ---------- */
+.filters{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;margin:0 -20px;
+  padding-left:20px;padding-right:20px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.filters::-webkit-scrollbar{height:6px}
+.filters::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
+.chip{flex:0 0 auto;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);
+  background:var(--paper-raised);border:1px solid var(--line);border-radius:999px;
+  padding:7px 14px;cursor:pointer;white-space:nowrap;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper-raised);border-color:var(--ink)}
+.chip .n{font-family:var(--mono);font-size:.72rem;opacity:.7}
+.chip.core .star{color:var(--gold)}
+.chip.core[aria-pressed="true"] .star{color:var(--gold)}
+
+main{padding:22px 0 60px;min-height:52vh}
+[hidden]{display:none !important}
+
+/* ---------- cards ---------- */
+.card-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.toggle{font-family:var(--sans);font-size:.8rem;color:var(--ink-soft);background:var(--paper-raised);
+  border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px}
+.toggle:hover{border-color:var(--line-strong);color:var(--ink)}
+.toggle[aria-pressed="true"]{background:var(--paper-sunk);border-color:var(--line-strong);color:var(--ink)}
+.toggle .dot{width:7px;height:7px;border-radius:50%;background:var(--line-strong)}
+.toggle[aria-pressed="true"] .dot{background:var(--gold)}
+
+.card-shell{perspective:1800px;margin:0 auto;max-width:560px}
+.card{position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.72,.2,1);
+  min-height:clamp(330px,50vh,440px);cursor:pointer;border-radius:var(--r)}
+.card.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+  padding:26px 30px 22px 38px}
+.face.back{transform:rotateY(180deg)}
+.spine{position:absolute;left:0;top:0;bottom:0;width:9px;
+  background:linear-gradient(180deg,var(--black-band) 0 33.33%,var(--red) 33.33% 66.66%,var(--gold) 66.66% 100%)}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-faint);line-height:1.35}
+.tag-core{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold-deep);border:1px solid var(--gold);border-radius:5px;padding:2px 7px;white-space:nowrap}
+.card-body{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:14px;padding:10px 0}
+.term{font-family:var(--disp);font-weight:800;color:var(--ink);line-height:1.06;letter-spacing:-.01em;
+  font-size:clamp(1.9rem,6vw,3rem)}
+.term.long{font-size:clamp(1.5rem,4.6vw,2.2rem)}
+.term.xlong{font-size:clamp(1.2rem,3.6vw,1.7rem)}
+.answer{font-family:var(--sans);font-weight:600;color:var(--ink);line-height:1.18;
+  font-size:clamp(1.5rem,4.6vw,2.15rem)}
+.answer.long{font-size:clamp(1.2rem,3.6vw,1.6rem)}
+.alt{font-family:var(--sans);font-size:.95rem;color:var(--ink-soft)}
+.alt .lbl{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-right:7px}
+.note{margin-top:2px;font-family:var(--mono);font-size:.78rem;line-height:1.45;color:var(--ink-soft);
+  border-left:2px solid var(--gold);padding:4px 0 4px 11px;background:linear-gradient(90deg,rgba(217,154,6,.07),transparent)}
+.face-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:20px}
+.hint{font-family:var(--sans);font-size:.8rem;color:var(--ink-faint);display:inline-flex;align-items:center;gap:7px}
+.flipmark{font-family:var(--mono);font-size:.68rem;color:var(--ink-faint);letter-spacing:.08em}
+
+.controls{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.nav-btn{font-family:var(--sans);font-size:1.1rem;color:var(--ink-soft);background:var(--paper-raised);
+  border:1px solid var(--line);width:44px;height:44px;border-radius:11px;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;justify-content:center}
+.nav-btn:hover{border-color:var(--line-strong);color:var(--ink)}
+.judge{font-family:var(--disp);font-weight:700;font-size:.9rem;letter-spacing:.02em;border-radius:11px;
+  padding:0 20px;height:44px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px;border:1px solid}
+.judge.no{background:var(--paper-raised);border-color:var(--line-strong);color:var(--red)}
+.judge.no:hover{background:var(--red);border-color:var(--red);color:#fff}
+.judge.yes{background:var(--paper-raised);border-color:var(--gold);color:var(--gold-deep)}
+.judge.yes:hover{background:var(--gold);border-color:var(--gold);color:#221a02}
+.counter{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);letter-spacing:.03em}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:16px;flex-wrap:wrap;max-width:420px;margin-left:auto;margin-right:auto}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line-strong);transition:all .2s}
+.dots i.on{background:var(--gold)}
+.dots i.cur{transform:scale(1.5);background:var(--ink);box-shadow:0 0 0 2px var(--paper)}
+.kbd-hint{text-align:center;margin-top:18px;font-family:var(--mono);font-size:.72rem;color:var(--ink-faint);letter-spacing:.02em}
+.kbd-hint kbd{background:var(--paper-raised);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;font-size:.7rem}
+
+/* ---------- empty state ---------- */
+.empty{max-width:440px;margin:30px auto;text-align:center;background:var(--paper-raised);
+  border:1px solid var(--line);border-radius:var(--r);padding:40px 30px;box-shadow:var(--shadow-sm)}
+.empty .big{font-family:var(--disp);font-weight:800;font-size:1.4rem;margin-bottom:8px}
+.empty p{color:var(--ink-soft);font-size:.92rem;margin:0 0 18px}
+.btn-primary{font-family:var(--disp);font-weight:700;font-size:.86rem;background:var(--ink);color:var(--paper-raised);
+  border:0;border-radius:10px;padding:11px 20px;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.86}
+
+/* ---------- quiz ---------- */
+.quiz{max-width:560px;margin:0 auto}
+.quiz-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:26px 28px 24px 34px;position:relative;overflow:hidden}
+.quiz-prompt{margin:14px 0 6px}
+.quiz-ask{font-family:var(--sans);font-size:.82rem;color:var(--ink-faint);margin-bottom:8px}
+.quiz-term{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,5.2vw,2.6rem);line-height:1.08;letter-spacing:-.01em}
+.quiz-term.long{font-size:clamp(1.35rem,4vw,1.9rem)}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.opt{font-family:var(--sans);font-size:1.02rem;color:var(--ink);text-align:left;background:var(--paper);
+  border:1px solid var(--line-strong);border-radius:10px;padding:13px 16px;cursor:pointer;transition:all .14s;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--paper-raised)}
+.opt:disabled{cursor:default}
+.opt .ic{font-family:var(--mono);font-weight:600;opacity:0;transition:opacity .15s}
+.opt.correct{border-color:var(--good);background:rgba(47,125,79,.09);color:var(--good)}
+.opt.correct .ic{opacity:1;color:var(--good)}
+.opt.wrong{border-color:var(--red);background:rgba(191,40,51,.08);color:var(--red)}
+.opt.wrong .ic{opacity:1;color:var(--red)}
+.opt.dim{opacity:.5}
+.quiz-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px;flex-wrap:wrap}
+.score{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);letter-spacing:.02em;display:flex;gap:16px;flex-wrap:wrap}
+.score b{color:var(--ink);font-weight:600}
+.score .streak{color:var(--gold-deep)}
+
+/* ---------- list ---------- */
+.list-tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.search{flex:1 1 240px;position:relative}
+.search input{width:100%;font-family:var(--sans);font-size:.95rem;color:var(--ink);
+  background:var(--paper-raised);border:1px solid var(--line-strong);border-radius:10px;
+  padding:11px 14px 11px 38px}
+.search input::placeholder{color:var(--ink-faint)}
+.search input:focus{outline:none;border-color:var(--ink)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-faint)}
+.list-count{font-family:var(--mono);font-size:.76rem;color:var(--ink-faint);letter-spacing:.02em}
+
+.group{margin-bottom:26px}
+.group-head{display:flex;align-items:baseline;gap:10px;padding:0 0 8px;border-bottom:2px solid var(--ink);margin-bottom:2px}
+.group-head h3{font-family:var(--disp);font-weight:700;font-size:1rem;letter-spacing:.02em;margin:0}
+.group-head .gn{font-family:var(--mono);font-size:.72rem;color:var(--ink-faint)}
+.row{display:grid;grid-template-columns:1.1fr 1fr auto;gap:14px;align-items:baseline;
+  padding:11px 4px;border-bottom:1px solid var(--line)}
+.row .de{font-family:var(--disp);font-weight:600;font-size:1.02rem;color:var(--ink);display:flex;align-items:baseline;gap:8px}
+.row .de .cstar{color:var(--gold);font-size:.7rem}
+.row .tr{font-family:var(--sans);font-size:.95rem;color:var(--ink-soft)}
+.row .rn{font-family:var(--mono);font-size:.72rem;color:var(--ink-faint);text-align:right;line-height:1.4}
+.row.hide .tr{filter:blur(5px);cursor:pointer;transition:filter .15s;color:var(--ink);user-select:none}
+.row.hide .tr.revealed{filter:none}
+.no-results{text-align:center;color:var(--ink-faint);padding:40px 0;font-size:.95rem}
+
+footer{border-top:1px solid var(--line);padding:20px 0 34px;color:var(--ink-faint);font-size:.76rem;text-align:center;line-height:1.6}
+footer b{color:var(--ink-soft);font-weight:600}
+
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+
+@media (max-width:560px){
+  .face{padding:22px 22px 18px 30px}
+  .quiz-card{padding:22px 20px 20px 28px}
+  .row{grid-template-columns:1fr;gap:3px;padding:12px 4px}
+  .row .rn{text-align:left}
+  .head-tools{width:100%;margin-left:0;justify-content:space-between}
+  .progress-box{flex:1;min-width:0}
+  .kbd-hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .card{transition:none}
+  .card.flipped{transform:none}
+  .face{backface-visibility:visible;-webkit-backface-visibility:visible}
+  .face.back{transform:none;display:none}
+  .card.flipped .face.front{display:none}
+  .card.flipped .face.back{display:flex}
+  *{scroll-behavior:auto !important}
+}
+/* ---------- SRS / закрепление ---------- */
+.srs{max-width:560px;margin:0 auto}
+.srs-intro{font-size:.82rem;color:var(--ink-soft);text-align:center;margin:0 auto 16px;max-width:470px;line-height:1.5}
+.srs-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.stat{flex:0 0 auto;background:var(--paper-raised);border:1px solid var(--line);border-radius:10px;padding:8px 13px;text-align:center;min-width:78px}
+.stat b{display:block;font-family:var(--mono);font-size:1.15rem;font-weight:600;line-height:1.1;color:var(--ink)}
+.stat span{font-size:.68rem;color:var(--ink-faint);letter-spacing:.02em}
+.stat.due b{color:var(--gold-deep)}
+.mbar{height:8px;border-radius:999px;overflow:hidden;display:flex;background:var(--paper-sunk);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:12px}
+.mbar i{height:100%;transition:width .4s}
+.mbar-legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:0 0 22px;font-family:var(--mono);font-size:.68rem;color:var(--ink-faint)}
+.mbar-legend span{display:inline-flex;align-items:center;gap:5px}
+.mbar-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.srs-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:24px 28px 22px 34px;position:relative;overflow:hidden;min-height:clamp(230px,34vh,310px);display:flex;flex-direction:column;cursor:pointer}
+.srs-term{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,5.4vw,2.7rem);line-height:1.08;letter-spacing:-.01em;margin:auto 0}
+.srs-term.long{font-size:clamp(1.35rem,4vw,1.9rem)}
+.srs-term.xlong{font-size:clamp(1.1rem,3.4vw,1.55rem)}
+.srs-reveal-hint{font-size:.8rem;color:var(--ink-faint);margin-top:auto;display:inline-flex;align-items:center;gap:7px}
+.srs-answer{margin-top:14px;padding-top:16px;border-top:1px solid var(--line)}
+.srs-tr{font-family:var(--sans);font-weight:600;font-size:clamp(1.3rem,4vw,1.8rem);color:var(--ink);line-height:1.2}
+.srs-alt{font-family:var(--sans);font-size:.92rem;color:var(--ink-soft);margin-top:8px}
+.srs-alt .lbl{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-right:7px}
+.srs-note{margin-top:10px;font-family:var(--mono);font-size:.78rem;line-height:1.45;color:var(--ink-soft);border-left:2px solid var(--gold);padding:4px 0 4px 11px;background:linear-gradient(90deg,rgba(217,154,6,.07),transparent)}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.grade{border:1px solid;border-radius:10px;padding:10px 4px 8px;cursor:pointer;background:var(--paper);display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .14s;font-family:var(--sans)}
+.grade .g-lbl{font-weight:700;font-size:.9rem;letter-spacing:.01em}
+.grade .g-ivl{font-family:var(--mono);font-size:.66rem;opacity:.8}
+.grade.again{border-color:var(--red);color:var(--red)}
+.grade.again:hover{background:var(--red);color:#fff}
+.grade.hard{border-color:var(--gold);color:var(--gold-deep)}
+.grade.hard:hover{background:var(--gold);color:#221a02}
+.grade.good{border-color:var(--good);color:var(--good)}
+.grade.good:hover{background:var(--good);color:#fff}
+.grade.easy{border-color:var(--good);background:var(--good);color:#fff}
+.grade.easy:hover{filter:brightness(1.08)}
+.srs-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-family:var(--mono);font-size:.76rem;color:var(--ink-soft)}
+.srs-kbd{text-align:center;margin-top:14px;font-family:var(--mono);font-size:.7rem;color:var(--ink-faint)}
+.srs-kbd kbd{background:var(--paper-raised);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;font-size:.68rem}
+@media (max-width:480px){
+  .grades{grid-template-columns:repeat(2,1fr)}
+  .srs-kbd{display:none}
+}
+</style>
+</head>
+<body>
+<div class="flagline"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 34 34" aria-hidden="true">
+        <rect width="34" height="34" fill="#f4f3ee"/>
+        <rect width="34" height="11.33" y="0" fill="#141414"/>
+        <rect width="34" height="11.33" y="11.33" fill="#bf2833"/>
+        <rect width="34" height="11.34" y="22.66" fill="#d99a06"/>
+      </svg>
+      <div class="title">
+        <h1>Leben in Deutschland</h1>
+        <p>Тренажёр лексики для теста / Einbürgerungstest</p>
+      </div>
+    </div>
+    <div class="head-tools">
+      <div class="lang" role="group" aria-label="Язык перевода">
+        <button id="lang-ru" aria-pressed="true">RU</button>
+        <button id="lang-en" aria-pressed="false">EN</button>
+      </div>
+      <div class="progress-box">
+        <div class="progress-top"><span>Выучено</span><span><b id="p-count">0</b> / <span id="p-total">0</span></span></div>
+        <div class="bar"><span id="p-bar"></span></div>
+        <div style="text-align:right;margin-top:4px"><button class="reset" id="reset">сбросить прогресс</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="modes" role="tablist" aria-label="Режим">
+    <button role="tab" id="tab-cards" aria-selected="true">Карточки</button>
+    <button role="tab" id="tab-srs" aria-selected="false">Закрепление</button>
+    <button role="tab" id="tab-quiz" aria-selected="false">Тест</button>
+    <button role="tab" id="tab-list" aria-selected="false">Список</button>
+  </div>
+  <div class="filters" id="filters" role="group" aria-label="Категории"></div>
+</div>
+
+<main class="wrap">
+  <!-- CARDS -->
+  <section id="view-cards" role="tabpanel" aria-labelledby="tab-cards">
+    <div class="card-tools">
+      <button class="toggle" id="t-unknown" aria-pressed="false"><span class="dot"></span>Только невыученные</button>
+    </div>
+    <div id="cards-inner"></div>
+  </section>
+
+  <!-- SRS -->
+  <section id="view-srs" role="tabpanel" aria-labelledby="tab-srs" hidden>
+    <div id="srs-inner" class="srs"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <div id="quiz-inner" class="quiz"></div>
+  </section>
+
+  <!-- LIST -->
+  <section id="view-list" role="tabpanel" aria-labelledby="tab-list" hidden>
+    <div class="list-tools">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Поиск по слову, переводу или заметке…" autocomplete="off">
+      </div>
+      <button class="toggle" id="t-hide" aria-pressed="false"><span class="dot"></span>Скрыть перевод</button>
+      <span class="list-count" id="list-count"></span>
+    </div>
+    <div id="list-inner"></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div>Данные: <b>Leben in Deutschland</b> · <span id="f-total">0</span> слов и выражений в <span id="f-cats">0</span> категориях.</div>
+  <div style="margin-top:6px">Прогресс сохраняется на этом устройстве. Space — перевернуть, ← → — листать, 1 / 2 — не знаю / знаю.</div>
+</footer>
+
+<script>
+const DATA = {"items": [{"c": "Экзаменационные формулировки", "de": "Was bedeutet …?", "ru": "Что означает …?", "en": "What does … mean?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Wofür steht …?", "ru": "За что/что символизирует …?", "en": "What does … stand for?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Welche Aussage ist richtig?", "ru": "Какое утверждение верно?", "en": "Which statement is correct?", "core": false, "note": "watch for richtig"}, {"c": "Экзаменационные формулировки", "de": "Welche Aussage ist falsch?", "ru": "Какое утверждение неверно?", "en": "Which statement is false?", "core": false, "note": "watch for falsch"}, {"c": "Экзаменационные формулировки", "de": "Was ist gemeint?", "ru": "Что имеется в виду?", "en": "What is meant?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Wer wählt …?", "ru": "Кто выбирает/голосует за …?", "en": "Who elects/votes for …?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Wer ernennt …?", "ru": "Кто назначает …?", "en": "Who appoints …?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Wer bestimmt …?", "ru": "Кто определяет/решает …?", "en": "Who determines/decides …?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Was gehört zu …?", "ru": "Что относится к …?", "en": "What belongs to …?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "Was gilt in Deutschland?", "ru": "Что действует/применяется в Германии?", "en": "What applies in Germany?", "core": false, "note": "question wording"}, {"c": "Экзаменационные формулировки", "de": "seit wann", "ru": "с какого времени", "en": "since when", "core": false, "note": "time expression"}, {"c": "Экзаменационные формулировки", "de": "wann", "ru": "когда", "en": "when", "core": false, "note": "question word"}, {"c": "Экзаменационные формулировки", "de": "warum", "ru": "почему", "en": "why", "core": false, "note": "question word"}, {"c": "Экзаменационные формулировки", "de": "wie viele", "ru": "сколько", "en": "how many", "core": false, "note": "quantity"}, {"c": "Экзаменационные формулировки", "de": "mindestens", "ru": "минимум, не менее", "en": "at least", "core": false, "note": "quantity"}, {"c": "Экзаменационные формулировки", "de": "höchstens", "ru": "максимум, не более", "en": "at most", "core": false, "note": "quantity"}, {"c": "Государство и политика", "de": "der Staat", "ru": "государство", "en": "the state", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Bundesrepublik Deutschland", "ru": "Федеративная Республика Германия", "en": "the Federal Republic of Germany", "core": false, "note": ""}, {"c": "Государство и политика", "de": "das Bundesland", "ru": "федеральная земля", "en": "federal state", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Hauptstadt", "ru": "столица", "en": "capital city", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Demokratie", "ru": "демократия", "en": "democracy", "core": false, "note": ""}, {"c": "Государство и политика", "de": "demokratisch", "ru": "демократический", "en": "democratic", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Diktatur", "ru": "диктатура", "en": "dictatorship", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Monarchie", "ru": "монархия", "en": "monarchy", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Verfassung", "ru": "конституция", "en": "constitution", "core": true, "note": ""}, {"c": "Государство и политика", "de": "das Grundgesetz", "ru": "Основной закон Германии", "en": "Basic Law", "core": true, "note": "German constitution-like Basic Law"}, {"c": "Государство и политика", "de": "der Artikel", "ru": "статья закона", "en": "article", "core": false, "note": "law article"}, {"c": "Государство и политика", "de": "das Gesetz", "ru": "закон", "en": "law", "core": true, "note": ""}, {"c": "Государство и политика", "de": "die Ordnung", "ru": "порядок, строй", "en": "order, system", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die freiheitliche demokratische Grundordnung", "ru": "свободный демократический конституционный строй", "en": "free democratic basic order", "core": false, "note": "important LiD term"}, {"c": "Государство и политика", "de": "die Gewaltenteilung", "ru": "разделение властей", "en": "separation of powers", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Legislative", "ru": "законодательная власть", "en": "legislative branch", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Exekutive", "ru": "исполнительная власть", "en": "executive branch", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Judikative", "ru": "судебная власть", "en": "judicial branch", "core": false, "note": ""}, {"c": "Государство и политика", "de": "das Parlament", "ru": "парламент", "en": "parliament", "core": false, "note": ""}, {"c": "Государство и политика", "de": "der Bundestag", "ru": "Бундестаг", "en": "Bundestag / federal parliament", "core": true, "note": ""}, {"c": "Государство и политика", "de": "der Bundesrat", "ru": "Бундесрат", "en": "Federal Council / Bundesrat", "core": true, "note": ""}, {"c": "Государство и политика", "de": "die Bundesregierung", "ru": "федеральное правительство", "en": "federal government", "core": true, "note": ""}, {"c": "Государство и политика", "de": "der Bundeskanzler / die Bundeskanzlerin", "ru": "федеральный канцлер", "en": "Federal Chancellor", "core": true, "note": ""}, {"c": "Государство и политика", "de": "der Bundespräsident / die Bundespräsidentin", "ru": "федеральный президент", "en": "Federal President", "core": true, "note": ""}, {"c": "Государство и политика", "de": "der Minister / die Ministerin", "ru": "министр", "en": "minister", "core": false, "note": ""}, {"c": "Государство и политика", "de": "der Abgeordnete / die Abgeordnete", "ru": "депутат", "en": "member of parliament", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Opposition", "ru": "оппозиция", "en": "opposition", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Partei", "ru": "партия", "en": "political party", "core": true, "note": ""}, {"c": "Государство и политика", "de": "die Regierung", "ru": "правительство", "en": "government", "core": false, "note": ""}, {"c": "Государство и политика", "de": "regieren", "ru": "управлять, быть у власти", "en": "to govern", "core": false, "note": ""}, {"c": "Государство и политика", "de": "wählen", "ru": "выбирать, голосовать", "en": "to elect, to vote", "core": true, "note": ""}, {"c": "Государство и политика", "de": "die Wahl", "ru": "выборы", "en": "election", "core": true, "note": ""}, {"c": "Государство и политика", "de": "die Stimme", "ru": "голос", "en": "vote, voice", "core": false, "note": ""}, {"c": "Государство и политика", "de": "abstimmen", "ru": "голосовать по вопросу", "en": "to vote on a matter", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Mehrheit", "ru": "большинство", "en": "majority", "core": false, "note": ""}, {"c": "Государство и политика", "de": "die Minderheit", "ru": "меньшинство", "en": "minority", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "das Recht", "ru": "право", "en": "right, law", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Pflicht", "ru": "обязанность", "en": "duty, obligation", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Menschenwürde", "ru": "человеческое достоинство", "en": "human dignity", "core": true, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Menschenrechte", "ru": "права человека", "en": "human rights", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Gleichberechtigung", "ru": "равноправие", "en": "equal rights", "core": true, "note": ""}, {"c": "Права, свободы, обязанности", "de": "gleichberechtigt", "ru": "равноправный", "en": "equal in rights", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Meinungsfreiheit", "ru": "свобода мнения", "en": "freedom of opinion", "core": true, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Pressefreiheit", "ru": "свобода прессы", "en": "freedom of the press", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Religionsfreiheit", "ru": "свобода вероисповедания", "en": "freedom of religion", "core": true, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Versammlungsfreiheit", "ru": "свобода собраний", "en": "freedom of assembly", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Berufsfreiheit", "ru": "свобода выбора профессии", "en": "freedom to choose an occupation", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Freizügigkeit", "ru": "свобода передвижения", "en": "freedom of movement", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Gleichheit vor dem Gesetz", "ru": "равенство перед законом", "en": "equality before the law", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Diskriminierung", "ru": "дискриминация", "en": "discrimination", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "verbieten", "ru": "запрещать", "en": "to prohibit", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "erlaubt sein", "ru": "быть разрешённым", "en": "to be allowed", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "verboten sein", "ru": "быть запрещённым", "en": "to be forbidden", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "schützen", "ru": "защищать", "en": "to protect", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "der Schutz", "ru": "защита", "en": "protection", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Strafe", "ru": "наказание", "en": "punishment", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "strafbar", "ru": "уголовно наказуемый", "en": "punishable by law", "core": false, "note": ""}, {"c": "Права, свободы, обязанности", "de": "die Verantwortung", "ru": "ответственность", "en": "responsibility", "core": true, "note": ""}, {"c": "Права, свободы, обязанности", "de": "verantwortlich", "ru": "ответственный", "en": "responsible", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "das Gericht", "ru": "суд", "en": "court", "core": true, "note": ""}, {"c": "Суд, закон, полиция", "de": "der Richter / die Richterin", "ru": "судья", "en": "judge", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "der Anwalt / die Anwältin", "ru": "адвокат", "en": "lawyer", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Polizei", "ru": "полиция", "en": "police", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Bundeswehr", "ru": "армия Германии, Бундесвер", "en": "German armed forces", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Klage", "ru": "иск, жалоба", "en": "lawsuit, complaint", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "verklagen", "ru": "подать в суд", "en": "to sue", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Entscheidung", "ru": "решение", "en": "decision", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "entscheiden", "ru": "решать", "en": "to decide", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "unabhängig", "ru": "независимый", "en": "independent", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Unabhängigkeit", "ru": "независимость", "en": "independence", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Verhandlung", "ru": "судебное заседание; переговоры", "en": "court hearing; negotiation", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Straftat", "ru": "преступление", "en": "criminal offence", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "der Täter / die Täterin", "ru": "преступник, виновник", "en": "perpetrator, offender", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "das Opfer", "ru": "жертва", "en": "victim", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Gewalt", "ru": "насилие; власть", "en": "violence; power", "core": false, "note": "context matters"}, {"c": "Суд, закон, полиция", "de": "die Haft", "ru": "заключение, арест", "en": "detention, imprisonment", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "die Todesstrafe", "ru": "смертная казнь", "en": "death penalty", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "abschaffen", "ru": "отменять, упразднять", "en": "to abolish", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "beweisen", "ru": "доказывать", "en": "to prove", "core": false, "note": ""}, {"c": "Суд, закон, полиция", "de": "der Beweis", "ru": "доказательство", "en": "proof, evidence", "core": false, "note": ""}, {"c": "История Германии", "de": "die Geschichte", "ru": "история", "en": "history", "core": false, "note": ""}, {"c": "История Германии", "de": "der Zweite Weltkrieg", "ru": "Вторая мировая война", "en": "World War II", "core": false, "note": ""}, {"c": "История Германии", "de": "der Nationalsozialismus", "ru": "национал-социализм", "en": "National Socialism, Nazism", "core": false, "note": ""}, {"c": "История Германии", "de": "nationalsozialistisch", "ru": "нацистский, национал-социалистический", "en": "Nazi, National Socialist", "core": false, "note": ""}, {"c": "История Германии", "de": "die NS-Zeit", "ru": "период нацизма", "en": "Nazi period", "core": false, "note": ""}, {"c": "История Германии", "de": "der Holocaust", "ru": "Холокост", "en": "the Holocaust", "core": false, "note": ""}, {"c": "История Германии", "de": "die Verfolgung", "ru": "преследование", "en": "persecution", "core": false, "note": ""}, {"c": "История Германии", "de": "verfolgen", "ru": "преследовать", "en": "to persecute, to pursue", "core": false, "note": ""}, {"c": "История Германии", "de": "die Juden", "ru": "евреи", "en": "Jews", "core": false, "note": ""}, {"c": "История Германии", "de": "jüdisch", "ru": "еврейский", "en": "Jewish", "core": false, "note": ""}, {"c": "История Германии", "de": "das Konzentrationslager", "ru": "концентрационный лагерь", "en": "concentration camp", "core": false, "note": ""}, {"c": "История Германии", "de": "die Schuld", "ru": "вина", "en": "guilt, fault", "core": false, "note": ""}, {"c": "История Германии", "de": "die Wiedervereinigung", "ru": "воссоединение Германии", "en": "reunification", "core": true, "note": ""}, {"c": "История Германии", "de": "die Teilung Deutschlands", "ru": "разделение Германии", "en": "division of Germany", "core": false, "note": ""}, {"c": "История Германии", "de": "die DDR", "ru": "ГДР", "en": "GDR / East Germany", "core": true, "note": ""}, {"c": "История Германии", "de": "die BRD", "ru": "ФРГ", "en": "FRG / West Germany", "core": false, "note": ""}, {"c": "История Германии", "de": "die Mauer", "ru": "стена", "en": "wall", "core": false, "note": ""}, {"c": "История Германии", "de": "der Mauerfall", "ru": "падение стены", "en": "fall of the Wall", "core": false, "note": ""}, {"c": "История Германии", "de": "der Aufstand", "ru": "восстание", "en": "uprising", "core": false, "note": ""}, {"c": "История Германии", "de": "die Revolution", "ru": "революция", "en": "revolution", "core": false, "note": ""}, {"c": "История Германии", "de": "die friedliche Revolution", "ru": "мирная революция", "en": "peaceful revolution", "core": false, "note": ""}, {"c": "История Германии", "de": "der Vertrag", "ru": "договор", "en": "treaty, contract", "core": false, "note": ""}, {"c": "История Германии", "de": "der Beitritt", "ru": "присоединение", "en": "accession, joining", "core": false, "note": ""}, {"c": "История Германии", "de": "gründen", "ru": "основывать", "en": "to found", "core": false, "note": ""}, {"c": "История Германии", "de": "die Gründung", "ru": "основание", "en": "founding", "core": false, "note": ""}, {"c": "История Германии", "de": "besetzen", "ru": "оккупировать, занимать", "en": "to occupy", "core": false, "note": ""}, {"c": "История Германии", "de": "die Besatzungszone", "ru": "оккупационная зона", "en": "occupation zone", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Gesellschaft", "ru": "общество", "en": "society", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Bürger / die Bürgerin", "ru": "гражданин / гражданка", "en": "citizen", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Bevölkerung", "ru": "население", "en": "population", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Ausländer / die Ausländerin", "ru": "иностранец / иностранка", "en": "foreigner", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Integration", "ru": "интеграция", "en": "integration", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Staatsangehörigkeit", "ru": "гражданство", "en": "citizenship, nationality", "core": true, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Einbürgerung", "ru": "натурализация", "en": "naturalization", "core": true, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Antrag", "ru": "заявление", "en": "application", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "beantragen", "ru": "подавать заявление", "en": "to apply for", "core": true, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Behörde", "ru": "ведомство, госорган", "en": "authority, government office", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "das Amt", "ru": "ведомство, учреждение", "en": "office, authority", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "das Rathaus", "ru": "ратуша", "en": "town hall, city hall", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "das Standesamt", "ru": "ЗАГС", "en": "registry office", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "das Bürgeramt", "ru": "Bürgeramt, гражданский офис", "en": "citizens' office", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Schule", "ru": "школа", "en": "school", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Schulpflicht", "ru": "обязательное школьное обучение", "en": "compulsory schooling", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Ausbildung", "ru": "профессиональное обучение", "en": "vocational training", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Beruf", "ru": "профессия", "en": "profession, occupation", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Arbeit", "ru": "работа", "en": "work", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Arbeitgeber", "ru": "работодатель", "en": "employer", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Arbeitnehmer", "ru": "работник", "en": "employee", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "der Arbeitsvertrag", "ru": "трудовой договор", "en": "employment contract", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Gewerkschaft", "ru": "профсоюз", "en": "trade union", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Steuer", "ru": "налог", "en": "tax", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Sozialversicherung", "ru": "социальное страхование", "en": "social insurance", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Krankenversicherung", "ru": "медицинская страховка", "en": "health insurance", "core": false, "note": ""}, {"c": "Общество и повседневная жизнь", "de": "die Rentenversicherung", "ru": "пенсионное страхование", "en": "pension insurance", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Ehe", "ru": "брак", "en": "marriage", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "heiraten", "ru": "жениться / выходить замуж", "en": "to marry", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Scheidung", "ru": "развод", "en": "divorce", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "sich scheiden lassen", "ru": "развестись", "en": "to get divorced", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "der Ehepartner / die Ehepartnerin", "ru": "супруг / супруга", "en": "spouse", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Familie", "ru": "семья", "en": "family", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "das Kind", "ru": "ребёнок", "en": "child", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Eltern", "ru": "родители", "en": "parents", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "das Sorgerecht", "ru": "право опеки", "en": "custody rights", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Erziehung", "ru": "воспитание", "en": "upbringing, education", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "erziehen", "ru": "воспитывать", "en": "to raise, to bring up", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "volljährig", "ru": "совершеннолетний", "en": "of legal age", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "minderjährig", "ru": "несовершеннолетний", "en": "underage, minor", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Gleichberechtigung von Mann und Frau", "ru": "равноправие мужчины и женщины", "en": "equal rights for men and women", "core": false, "note": ""}, {"c": "Семья, брак, дети", "de": "die Zwangsheirat", "ru": "принудительный брак", "en": "forced marriage", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "die Religion", "ru": "религия", "en": "religion", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "der Glaube", "ru": "вера", "en": "faith, belief", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "glauben", "ru": "верить", "en": "to believe", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "christlich", "ru": "христианский", "en": "Christian", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "jüdisch", "ru": "еврейский", "en": "Jewish", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "muslimisch", "ru": "мусульманский", "en": "Muslim", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "die Kirche", "ru": "церковь", "en": "church", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "die Synagoge", "ru": "синагога", "en": "synagogue", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "die Moschee", "ru": "мечеть", "en": "mosque", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "der Staat und die Religion", "ru": "государство и религия", "en": "state and religion", "core": false, "note": ""}, {"c": "Религия и мировоззрение", "de": "die Weltanschauung", "ru": "мировоззрение", "en": "worldview", "core": false, "note": ""}, {"c": "Европа и международное", "de": "die Europäische Union / EU", "ru": "Европейский союз / ЕС", "en": "European Union / EU", "core": true, "note": ""}, {"c": "Европа и международное", "de": "Europa", "ru": "Европа", "en": "Europe", "core": false, "note": ""}, {"c": "Европа и международное", "de": "europäisch", "ru": "европейский", "en": "European", "core": false, "note": ""}, {"c": "Европа и международное", "de": "das Mitglied", "ru": "член", "en": "member", "core": false, "note": ""}, {"c": "Европа и международное", "de": "der Mitgliedstaat", "ru": "государство-член", "en": "member state", "core": false, "note": ""}, {"c": "Европа и международное", "de": "die Währung", "ru": "валюта", "en": "currency", "core": false, "note": ""}, {"c": "Европа и международное", "de": "der Euro", "ru": "евро", "en": "euro", "core": false, "note": ""}, {"c": "Европа и международное", "de": "die Grenze", "ru": "граница", "en": "border", "core": false, "note": ""}, {"c": "Европа и международное", "de": "die Zusammenarbeit", "ru": "сотрудничество", "en": "cooperation", "core": false, "note": ""}, {"c": "Европа и международное", "de": "der Frieden", "ru": "мир", "en": "peace", "core": false, "note": ""}, {"c": "Европа и международное", "de": "der Krieg", "ru": "война", "en": "war", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "bedeuten", "ru": "означать", "en": "to mean", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "gehören zu", "ru": "относиться к", "en": "to belong to", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "bestehen aus", "ru": "состоять из", "en": "to consist of", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "stattfinden", "ru": "происходить, состояться", "en": "to take place", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "teilnehmen", "ru": "участвовать", "en": "to participate", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "ernennen", "ru": "назначать", "en": "to appoint", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "bestimmen", "ru": "определять", "en": "to determine", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "beschließen", "ru": "принимать решение; принимать закон", "en": "to decide; to pass a law", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "garantieren", "ru": "гарантировать", "en": "to guarantee", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "erlauben", "ru": "разрешать", "en": "to allow", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "regeln", "ru": "регулировать", "en": "to regulate", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "gelten", "ru": "действовать, иметь силу", "en": "to apply, to be valid", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "vertreten", "ru": "представлять", "en": "to represent", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "kontrollieren", "ru": "контролировать", "en": "to control, to check", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "demonstrieren", "ru": "демонстрировать, участвовать в демонстрации", "en": "to demonstrate, to protest", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "unterschreiben", "ru": "подписывать", "en": "to sign", "core": false, "note": ""}, {"c": "Важные глаголы", "de": "nachweisen", "ru": "подтверждать, доказывать", "en": "to prove, to provide evidence", "core": true, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "die Richtung", "ru": "направление", "en": "direction", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "der Bund", "ru": "федерация, федеральный уровень", "en": "federation, federal level", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "gleich", "ru": "одинаковый, равный", "en": "same, equal", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "gleichzeitig", "ru": "одновременно", "en": "at the same time", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "gesetzlich", "ru": "законный, установленный законом", "en": "legal, statutory", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "grundsätzlich", "ru": "принципиально, в целом", "en": "in principle, generally", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "öffentlich", "ru": "общественный, публичный", "en": "public", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "frei", "ru": "свободный", "en": "free", "core": false, "note": ""}, {"c": "Слова, на которых легко ошибиться", "de": "freiwillig", "ru": "добровольный", "en": "voluntary", "core": false, "note": ""}, {"c": "Berlin", "de": "Berlin", "ru": "Берлин", "en": "Berlin", "core": false, "note": ""}, {"c": "Berlin", "de": "der Regierende Bürgermeister", "ru": "правящий бургомистр Берлина", "en": "Governing Mayor", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "das Abgeordnetenhaus", "ru": "парламент Берлина", "en": "House of Representatives", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "der Senat", "ru": "Сенат / правительство Берлина", "en": "Senate / Berlin government", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "der Bezirk", "ru": "район", "en": "district, borough", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "die Bezirksverordnetenversammlung", "ru": "районное собрание депутатов", "en": "district assembly", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "das Rote Rathaus", "ru": "Красная ратуша", "en": "Red City Hall", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "das Brandenburger Tor", "ru": "Бранденбургские ворота", "en": "Brandenburg Gate", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "der Fernsehturm", "ru": "телебашня", "en": "TV Tower", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "die Spree", "ru": "Шпрее", "en": "Spree River", "core": false, "note": "Berlin-specific"}, {"c": "Berlin", "de": "die Berliner Mauer", "ru": "Берлинская стена", "en": "Berlin Wall", "core": true, "note": "Berlin-specific"}, {"c": "Полезные связки", "de": "das Recht haben", "ru": "иметь право", "en": "to have the right", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "eine Partei wählen", "ru": "выбирать партию", "en": "to vote for a party", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "einen Antrag stellen", "ru": "подать заявление", "en": "to submit an application", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "etwas beantragen", "ru": "подать заявление на что-либо", "en": "to apply for something", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "vor Gericht gehen", "ru": "идти в суд", "en": "to go to court", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "ein Gesetz beschließen", "ru": "принять закон", "en": "to pass a law", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "die Menschenwürde schützen", "ru": "защищать человеческое достоинство", "en": "to protect human dignity", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "an einer Wahl teilnehmen", "ru": "участвовать в выборах", "en": "to participate in an election", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "eine Stimme abgeben", "ru": "отдать голос", "en": "to cast a vote", "core": false, "note": "phrase"}, {"c": "Полезные связки", "de": "vor dem Gesetz gleich sein", "ru": "быть равным перед законом", "en": "to be equal before the law", "core": false, "note": "phrase"}], "cats": [{"name": "Экзаменационные формулировки", "count": 16}, {"name": "Государство и политика", "count": 36}, {"name": "Права, свободы, обязанности", "count": 23}, {"name": "Суд, закон, полиция", "count": 21}, {"name": "История Германии", "count": 27}, {"name": "Общество и повседневная жизнь", "count": 27}, {"name": "Семья, брак, дети", "count": 15}, {"name": "Религия и мировоззрение", "count": 11}, {"name": "Европа и международное", "count": 11}, {"name": "Важные глаголы", "count": 17}, {"name": "Слова, на которых легко ошибиться", "count": 9}, {"name": "Berlin", "count": 11}, {"name": "Полезные связки", "count": 10}], "core": 25, "total": 234};
+
+/* ---------------- storage (window.storage → localStorage → memory) ---------------- */
+const Store = (()=>{
+  const mem = {};
+  const hasWS = typeof window!=="undefined" && window.storage && typeof window.storage.get==="function";
+  let hasLS = false;
+  try{ hasLS = typeof localStorage!=="undefined"; localStorage.getItem("__t"); }catch(e){ hasLS=false; }
+  return {
+    async get(k){
+      if(hasWS){ try{ const r=await window.storage.get(k); return r? r.value : null; }catch(e){ return null; } }
+      if(hasLS){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+      return k in mem ? mem[k] : null;
+    },
+    async set(k,v){
+      if(hasWS){ try{ await window.storage.set(k,v); return; }catch(e){} }
+      if(hasLS){ try{ localStorage.setItem(k,v); return; }catch(e){} }
+      mem[k]=v;
+    }
+  };
+})();
+const K_KNOWN="lid.known.v1", K_BEST="lid.best.v1", K_LANG="lid.lang.v1";
+
+/* ---------------- state ---------------- */
+const S = {
+  mode:"cards", lang:"ru", filter:"all",
+  onlyUnknown:false,
+  deck:[], idx:0, flipped:false,
+  known:Object.create(null),
+  quiz:{ q:null, options:[], answered:false, correct:0, total:0, streak:0, best:0 },
+  hideTr:false, search:"",
+  srs:Object.create(null), srsQueue:[], srsFlipped:false, srsNewCap:15,
+};
+const key = it => it.c + "||" + it.de;
+const $ = s => document.querySelector(s);
+const el = (t,c)=>{ const e=document.createElement(t); if(c) e.className=c; return e; };
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function lenClass(s){ const n=s.length; return n>34?"xlong":n>18?"long":""; }
+
+/* ---------------- pools ---------------- */
+function pool(){
+  let a = DATA.items;
+  if(S.filter==="core") a = a.filter(x=>x.core);
+  else if(S.filter!=="all") a = a.filter(x=>x.c===S.filter);
+  return a;
+}
+function learnedCount(){ return Object.keys(S.known).length; }
+
+/* ---------------- persistence ---------------- */
+let saveT=null;
+function saveKnown(){ clearTimeout(saveT); saveT=setTimeout(()=>Store.set(K_KNOWN, JSON.stringify(S.known)),120); }
+function saveBest(){ Store.set(K_BEST, String(S.quiz.best)); }
+
+/* ---------------- header ---------------- */
+function updateHeader(){
+  const total = DATA.total, done = learnedCount();
+  $("#p-count").textContent = done;
+  $("#p-total").textContent = total;
+  $("#p-bar").style.width = (total? (done/total*100):0) + "%";
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+function buildDeck(){
+  let a = pool();
+  if(S.onlyUnknown) a = a.filter(x=>!S.known[key(x)]);
+  S.deck = shuffle(a);
+  if(S.idx >= S.deck.length) S.idx = 0;
+  S.flipped = false;
+}
+function renderCards(){
+  const host = $("#cards-inner"); host.innerHTML="";
+  if(!S.deck.length){
+    const e = el("div","empty");
+    const allDone = S.onlyUnknown && pool().length>0;
+    e.innerHTML = `<div class="big">${allDone?"Всё выучено в этой подборке":"Здесь пока пусто"}</div>
+      <p>${allDone?"Отличная работа. Можно повторить всё заново или выбрать другую категорию.":"Выберите другую категорию или снимите фильтр."}</p>`;
+    const b = el("button","btn-primary");
+    b.textContent = allDone?"Повторить всё":"Показать все";
+    b.onclick = ()=>{ S.onlyUnknown=false; $("#t-unknown").setAttribute("aria-pressed","false"); buildDeck(); renderCards(); };
+    e.appendChild(b); host.appendChild(e); return;
+  }
+  const it = S.deck[S.idx];
+  const shell = el("div","card-shell");
+  const card = el("div","card"+(S.flipped?" flipped":""));
+  card.setAttribute("role","button"); card.setAttribute("tabindex","0");
+  card.setAttribute("aria-label","Карточка. Нажмите, чтобы перевернуть.");
+
+  const tr = it[S.lang] || "—";
+  const other = S.lang==="ru" ? it.en : it.ru;
+  const otherLbl = S.lang==="ru" ? "EN" : "RU";
+
+  card.innerHTML = `
+    <div class="face front">
+      <div class="spine"></div>
+      <div class="card-head">
+        <div class="eyebrow">${escapeHtml(it.c)}</div>
+        ${it.core?'<div class="tag-core">Важное</div>':''}
+      </div>
+      <div class="card-body">
+        <div class="term ${lenClass(it.de)}">${escapeHtml(it.de)}</div>
+      </div>
+      <div class="face-foot">
+        <span class="hint">Нажмите, чтобы увидеть перевод</span>
+        <span class="flipmark">DE</span>
+      </div>
+    </div>
+    <div class="face back">
+      <div class="spine"></div>
+      <div class="card-head">
+        <div class="eyebrow">${escapeHtml(it.de)}</div>
+        ${it.core?'<div class="tag-core">Важное</div>':''}
+      </div>
+      <div class="card-body">
+        <div class="answer ${tr.length>26?'long':''}">${escapeHtml(tr)}</div>
+        ${other?`<div class="alt"><span class="lbl">${otherLbl}</span>${escapeHtml(other)}</div>`:''}
+        ${it.note?`<div class="note">${escapeHtml(it.note)}</div>`:''}
+      </div>
+      <div class="face-foot"><span class="flipmark">${S.lang.toUpperCase()}</span></div>
+    </div>`;
+  card.addEventListener("click", flip);
+  card.addEventListener("keydown", ev=>{ if(ev.key===" "||ev.key==="Enter"){ ev.preventDefault(); flip(); } });
+  shell.appendChild(card); host.appendChild(shell);
+
+  // controls
+  const ctr = el("div","controls");
+  const prev = navBtn("‹","Предыдущая", ()=>go(-1));
+  const no = el("button","judge no"); no.innerHTML="Не знаю"; no.onclick=()=>mark(false);
+  const yes = el("button","judge yes"); yes.innerHTML="Знаю"; yes.onclick=()=>mark(true);
+  const next = navBtn("›","Следующая", ()=>go(1));
+  ctr.append(prev,no,yes,next); host.appendChild(ctr);
+
+  const counter = el("div","counter"); counter.style.textAlign="center"; counter.style.marginTop="14px";
+  counter.textContent = `${S.idx+1} / ${S.deck.length}`;
+  host.appendChild(counter);
+
+  // dots (cap for large decks)
+  const dots = el("div","dots");
+  const n = S.deck.length;
+  if(n<=40){
+    for(let i=0;i<n;i++){ const d=el("i"); const di=S.deck[i];
+      if(S.known[key(di)]) d.classList.add("on"); if(i===S.idx) d.classList.add("cur"); dots.appendChild(d); }
+  }
+  host.appendChild(dots);
+
+  const kb = el("div","kbd-hint");
+  kb.innerHTML = `<kbd>Space</kbd> перевернуть · <kbd>←</kbd> <kbd>→</kbd> листать · <kbd>1</kbd> не знаю · <kbd>2</kbd> знаю`;
+  host.appendChild(kb);
+}
+function navBtn(txt,label,fn){ const b=el("button","nav-btn"); b.textContent=txt; b.setAttribute("aria-label",label); b.onclick=fn; return b; }
+function flip(){ S.flipped=!S.flipped; const c=$(".card"); if(c) c.classList.toggle("flipped", S.flipped); }
+function go(dir){ if(!S.deck.length) return; S.idx=(S.idx+dir+S.deck.length)%S.deck.length; S.flipped=false; renderCards(); }
+function mark(good){
+  if(!S.deck.length) return;
+  const it=S.deck[S.idx];
+  if(good) S.known[key(it)]=true; else delete S.known[key(it)];
+  saveKnown(); updateHeader();
+  // advance; if onlyUnknown & marked known, the item drops from deck on rebuild
+  if(S.onlyUnknown && good){ buildDeck(); if(S.idx>=S.deck.length) S.idx=Math.max(0,S.deck.length-1); renderCards(); }
+  else go(1);
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+/* ---- confusable-distractor scoring ----
+   Picks wrong answers that are genuinely easy to mix up: shared word head
+   (-freiheit, -recht…), shared derivational suffix (-ive → Legislative/
+   Exekutive/Judikative), same article, same category, string similarity of
+   the German term, and overlapping words in the translation (…власть). */
+const HEAD_MORPHEMES=["versammlung","verwaltung","regierung","demokratie","monarchie","republik","freiheit","minister","ordnung","gericht","gewalt","partei","bürger","glaube","pflicht","kammer","gesetz","staat","recht","wahl","volk"];
+const DERIV_SUFFIXES=["ismus","schaft","tion","sion","heit","keit","tät","ung","ive","ie"];
+function stripArt(de){ return de.replace(/^(der|die|das)\s+/i,"").trim(); }
+function leadArt(de){ const m=de.match(/^(der|die|das)\s+/i); return m?m[1].toLowerCase():""; }
+function letters(s){ return s.toLowerCase().replace(/[^a-zäöüß]+/g,""); }
+function headMorph(de){ const w=letters(stripArt(de)); for(const h of HEAD_MORPHEMES){ if(w.length>h.length+1 && w.endsWith(h)) return h; } return ""; }
+function derivSuf(de){ const w=letters(stripArt(de)); for(const s of DERIV_SUFFIXES){ if(w.length>s.length+2 && w.endsWith(s)) return s; } return ""; }
+function bigrams(s){ const g=[]; for(let i=0;i<s.length-1;i++) g.push(s.slice(i,i+2)); return g; }
+function dice(a,b){ a=letters(a); b=letters(b); if(!a||!b) return 0; if(a===b) return 1; const A=bigrams(a),B=bigrams(b); if(A.length<1||B.length<1) return 0; const m=new Map(); A.forEach(x=>m.set(x,(m.get(x)||0)+1)); let inter=0; B.forEach(x=>{ const c=m.get(x)||0; if(c>0){ inter++; m.set(x,c-1);} }); return 2*inter/(A.length+B.length); }
+function toks(s){ return (s||"").toLowerCase().split(/[^a-zа-яё0-9]+/).filter(w=>w.length>2); }
+function jacc(a,b){ const A=new Set(toks(a)),B=new Set(toks(b)); if(!A.size||!B.size) return 0; let inter=0; A.forEach(x=>{ if(B.has(x)) inter++; }); return inter/(A.size+B.size-inter); }
+function simScore(a,b,lang){
+  let s=0;
+  if(a.c===b.c) s+=2;
+  const arA=leadArt(a.de), arB=leadArt(b.de); if(arA && arA===arB) s+=1;
+  const hA=headMorph(a.de), hB=headMorph(b.de); if(hA && hA===hB) s+=4;
+  const dA=derivSuf(a.de), dB=derivSuf(b.de); if(dA && dA===dB) s+=2.5;
+  s+=2*dice(stripArt(a.de),stripArt(b.de));
+  s+=2*jacc(a[lang],b[lang]);
+  return s;
+}
+function distractors(correct,n){
+  const seen=new Set([correct[S.lang]]);
+  const scored=[];
+  for(const it of DATA.items){
+    if(it===correct) continue;
+    const t=it[S.lang];
+    if(!t||seen.has(t)) continue; seen.add(t);
+    scored.push({t, s:simScore(correct,it,S.lang)});
+  }
+  scored.sort((a,b)=>b.s-a.s);
+  const strongCount=Math.min(scored.length, Math.max(1, Math.ceil(n/2)));  // hardest 1-2 always shown
+  const out=scored.slice(0,strongCount).map(x=>x.t);
+  const rest=shuffle(scored.slice(strongCount, strongCount+Math.max(n,5))); // rest varied for replayability
+  for(const r of rest){ if(out.length>=n) break; if(!out.includes(r.t)) out.push(r.t); }
+  for(let i=0;i<scored.length && out.length<n;i++){ if(!out.includes(scored[i].t)) out.push(scored[i].t); }
+  return out.slice(0,n);
+}
+function newQuestion(){
+  const p = pool();
+  const inner = $("#quiz-inner");
+  if(p.length<2){ inner.innerHTML = `<div class="empty"><div class="big">Мало слов для теста</div><p>Выберите категорию побольше или «Все».</p></div>`; return; }
+  let q, guard=0;
+  do{ q = p[Math.floor(Math.random()*p.length)]; guard++; } while(p.length>4 && q===S.quiz.last && guard<10);
+  S.quiz.last=q; S.quiz.q=q; S.quiz.answered=false;
+  S.quiz.options = shuffle([q[S.lang], ...distractors(q,3)]);
+  renderQuiz();
+}
+function renderQuiz(){
+  const inner=$("#quiz-inner"); const q=S.quiz.q; if(!q) return;
+  const ask = S.lang==="ru" ? "Как переводится на русский?" : "How do you translate this?";
+  inner.innerHTML = `
+    <div class="quiz-card">
+      <div class="spine" style="border-radius:0"></div>
+      <div class="eyebrow" style="margin-left:8px">${escapeHtml(q.c)}</div>
+      <div class="quiz-prompt" style="margin-left:8px">
+        <div class="quiz-ask">${ask}</div>
+        <div class="quiz-term ${lenClass(q.de)}">${escapeHtml(q.de)}</div>
+      </div>
+      <div class="options" id="opts"></div>
+      <div class="quiz-foot">
+        <div class="score">
+          <span>Верно: <b>${S.quiz.correct}</b> / ${S.quiz.total}</span>
+          <span class="streak">Серия: <b>${S.quiz.streak}</b></span>
+          <span>Рекорд: <b>${S.quiz.best}</b></span>
+        </div>
+        <button class="btn-primary" id="q-next" ${S.quiz.answered?'':'style="display:none"'}>Дальше →</button>
+      </div>
+    </div>`;
+  const wrap=$("#opts"); const correct=q[S.lang];
+  S.quiz.options.forEach(txt=>{
+    const b=el("button","opt");
+    b.innerHTML = `<span>${escapeHtml(txt)}</span><span class="ic"></span>`;
+    if(S.quiz.answered){
+      b.disabled=true;
+      if(txt===correct){ b.classList.add("correct"); b.querySelector(".ic").textContent="✓"; }
+      else if(txt===S.quiz.picked){ b.classList.add("wrong"); b.querySelector(".ic").textContent="✕"; }
+      else b.classList.add("dim");
+    } else {
+      b.onclick=()=>answer(txt);
+    }
+    wrap.appendChild(b);
+  });
+  const nx=$("#q-next"); if(nx) nx.onclick=newQuestion;
+}
+function answer(txt){
+  if(S.quiz.answered) return;
+  S.quiz.answered=true; S.quiz.picked=txt;
+  const correct=S.quiz.q[S.lang];
+  S.quiz.total++;
+  if(txt===correct){
+    S.quiz.correct++; S.quiz.streak++;
+    if(S.quiz.streak>S.quiz.best){ S.quiz.best=S.quiz.streak; saveBest(); }
+    S.known[key(S.quiz.q)]=true; saveKnown(); updateHeader();
+  } else { S.quiz.streak=0; }
+  renderQuiz();
+}
+
+/* =========================================================
+   LIST
+========================================================= */
+function renderList(){
+  const inner=$("#list-inner"); inner.innerHTML="";
+  const term = S.search.trim().toLowerCase();
+  let a = pool();
+  if(term){
+    a = a.filter(x =>
+      x.de.toLowerCase().includes(term) ||
+      (x.ru||"").toLowerCase().includes(term) ||
+      (x.en||"").toLowerCase().includes(term) ||
+      (x.note||"").toLowerCase().includes(term));
+  }
+  $("#list-count").textContent = a.length + (a.length===1?" запись":" записей");
+  if(!a.length){ inner.innerHTML = `<div class="no-results">Ничего не найдено. Попробуйте другой запрос.</div>`; return; }
+
+  // group by category, preserving DATA order
+  const order = DATA.cats.map(c=>c.name);
+  const groups = {};
+  a.forEach(x=>{ (groups[x.c] = groups[x.c]||[]).push(x); });
+  order.filter(c=>groups[c]).forEach(cat=>{
+    const g=el("div","group");
+    const gh=el("div","group-head");
+    gh.innerHTML = `<h3>${escapeHtml(cat)}</h3><span class="gn">${groups[cat].length}</span>`;
+    g.appendChild(gh);
+    groups[cat].forEach(x=>{
+      const r=el("div","row"+(S.hideTr?" hide":""));
+      const other = S.lang==="ru"?x.en:x.ru;
+      r.innerHTML = `
+        <div class="de">${escapeHtml(x.de)}${x.core?'<span class="cstar">★</span>':''}</div>
+        <div class="tr">${escapeHtml(x[S.lang]||"—")}</div>
+        <div class="rn">${x.note?escapeHtml(x.note):(other?escapeHtml(other):"")}</div>`;
+      if(S.hideTr){ const t=r.querySelector(".tr"); t.onclick=()=>t.classList.toggle("revealed"); }
+      g.appendChild(r);
+    });
+    inner.appendChild(g);
+  });
+}
+
+/* =========================================================
+   MODE + FILTERS + EVENTS
+========================================================= */
+function setMode(m){
+  S.mode=m;
+  $("#tab-cards").setAttribute("aria-selected", m==="cards");
+  $("#tab-srs").setAttribute("aria-selected", m==="srs");
+  $("#tab-quiz").setAttribute("aria-selected", m==="quiz");
+  $("#tab-list").setAttribute("aria-selected", m==="list");
+  $("#view-cards").hidden = m!=="cards";
+  $("#view-srs").hidden = m!=="srs";
+  $("#view-quiz").hidden = m!=="quiz";
+  $("#view-list").hidden = m!=="list";
+  if(m==="cards"){ buildDeck(); renderCards(); }
+  else if(m==="srs"){ buildSrsSession(true,false); renderSrs(); }
+  else if(m==="quiz"){ newQuestion(); }
+  else renderList();
+}
+function buildFilters(){
+  const host=$("#filters"); host.innerHTML="";
+  const mk=(id,label,count,extra="")=>{
+    const b=el("button","chip"+(extra?(" "+extra):""));
+    b.dataset.f=id;
+    b.setAttribute("aria-pressed", S.filter===id);
+    b.innerHTML = `${extra==="core"?'<span class="star">★</span>':''}${label}<span class="n">${count}</span>`;
+    b.onclick=()=>setFilter(id);
+    return b;
+  };
+  host.appendChild(mk("all","Все",DATA.total));
+  host.appendChild(mk("core","Важное",DATA.core,"core"));
+  DATA.cats.forEach(c=> host.appendChild(mk(c.name, c.name, c.count)));
+}
+function setFilter(f){
+  S.filter=f;
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.f===f));
+  if(S.mode==="cards"){ S.idx=0; buildDeck(); renderCards(); }
+  else if(S.mode==="srs"){ buildSrsSession(true,false); renderSrs(); }
+  else if(S.mode==="quiz"){ S.quiz.streak=0; newQuestion(); }
+  else renderList();
+}
+function setLang(l){
+  S.lang=l; Store.set(K_LANG,l);
+  $("#lang-ru").setAttribute("aria-pressed", l==="ru");
+  $("#lang-en").setAttribute("aria-pressed", l==="en");
+  if(S.mode==="cards") renderCards();
+  else if(S.mode==="srs") renderSrs();
+  else if(S.mode==="quiz") newQuestion();
+  else renderList();
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function bind(){
+  $("#tab-cards").onclick=()=>setMode("cards");
+  $("#tab-srs").onclick=()=>setMode("srs");
+  $("#tab-quiz").onclick=()=>setMode("quiz");
+  $("#tab-list").onclick=()=>setMode("list");
+  $("#lang-ru").onclick=()=>setLang("ru");
+  $("#lang-en").onclick=()=>setLang("en");
+
+  $("#t-unknown").onclick=e=>{ S.onlyUnknown=!S.onlyUnknown; e.currentTarget.setAttribute("aria-pressed",S.onlyUnknown); S.idx=0; buildDeck(); renderCards(); };
+  $("#t-hide").onclick=e=>{ S.hideTr=!S.hideTr; e.currentTarget.setAttribute("aria-pressed",S.hideTr); renderList(); };
+  $("#search").addEventListener("input", e=>{ S.search=e.target.value; renderList(); });
+
+  $("#reset").onclick=()=>{
+    if(confirm("Сбросить весь прогресс обучения? Это действие нельзя отменить.")){
+      S.known=Object.create(null); S.quiz.best=0; S.quiz.correct=0; S.quiz.total=0; S.quiz.streak=0;
+      S.srs=Object.create(null); S.srsQueue=[]; S.srsFlipped=false;
+      saveKnown(); saveBest(); saveSrs(); updateHeader();
+      if(S.mode==="cards"){ buildDeck(); renderCards(); }
+      else if(S.mode==="srs") renderSrs();
+      else if(S.mode==="quiz") renderQuiz();
+      else renderList();
+    }
+  };
+
+  document.addEventListener("keydown", ev=>{
+    const t=ev.target; if(t && (t.tagName==="INPUT"||t.tagName==="TEXTAREA")) return;
+    if(S.mode==="cards"){
+      if(ev.key===" "){ ev.preventDefault(); flip(); }
+      else if(ev.key==="ArrowRight"){ ev.preventDefault(); go(1); }
+      else if(ev.key==="ArrowLeft"){ ev.preventDefault(); go(-1); }
+      else if(ev.key==="1"){ ev.preventDefault(); mark(false); }
+      else if(ev.key==="2"){ ev.preventDefault(); mark(true); }
+    } else if(S.mode==="srs"){
+      if(!S.srsQueue.length) return;
+      if(!S.srsFlipped){ if(ev.key===" "||ev.key==="Enter"){ ev.preventDefault(); S.srsFlipped=true; renderSrs(); } }
+      else { const map={"1":"again","2":"hard","3":"good","4":"easy"}; if(map[ev.key]){ ev.preventDefault(); gradeSrs(map[ev.key]); } }
+    }
+  });
+}
+
+/* =========================================================
+   SRS — интервальное повторение (закрепление)
+========================================================= */
+const LEARN_STEPS_MIN=[1,10];
+const GRAD_IVL_DAYS={1:1,2:3,3:7,4:16,5:35};
+const MASTERED_BOX=5;
+const MIN=60000, HR=3600000, DAY=86400000;
+const K_SRS="lid.srs.v1";
+const ITEM_MAP=new Map(DATA.items.map(it=>[key(it),it]));
+
+function srsNewRec(){ return {phase:"learning",step:0,box:0,reps:0,lapses:0,due:Date.now()}; }
+function saveSrs(){ clearTimeout(saveSrs._t); saveSrs._t=setTimeout(()=>Store.set(K_SRS,JSON.stringify(S.srs)),150); }
+
+// Pure scheduler: returns a new record (does not mutate) — used both for the
+// interval previews on the buttons and for committing an answer.
+function computeSchedule(rec,grade,now){
+  const r=Object.assign({},rec);
+  if(r.phase!=="review"){
+    r.phase=r.phase||"learning"; if(r.box==null) r.box=0; if(r.step==null) r.step=0;
+    if(grade==="again"){ r.step=0; r.due=now+1*MIN; }
+    else if(grade==="hard"){ r.due=now+Math.max(6,(LEARN_STEPS_MIN[r.step]||1))*MIN; }
+    else if(grade==="good"){
+      const ns=(r.step||0)+1;
+      if(ns>=LEARN_STEPS_MIN.length){ r.phase="review"; r.box=1; r.step=0; r.due=now+GRAD_IVL_DAYS[1]*DAY; }
+      else { r.step=ns; r.due=now+LEARN_STEPS_MIN[ns]*MIN; }
+    } else { r.phase="review"; r.box=2; r.step=0; r.due=now+GRAD_IVL_DAYS[2]*DAY; }
+  } else {
+    const b=Math.min(MASTERED_BOX,r.box||1);
+    if(grade==="again"){ r.phase="learning"; r.step=0; r.box=1; r.lapses=(r.lapses||0)+1; r.due=now+1*MIN; }
+    else if(grade==="hard"){ r.box=b; r.due=now+Math.max(1,Math.round(GRAD_IVL_DAYS[b]*0.7))*DAY; }
+    else if(grade==="good"){ r.box=Math.min(MASTERED_BOX,b+1); r.due=now+GRAD_IVL_DAYS[r.box]*DAY; }
+    else { r.box=Math.min(MASTERED_BOX,b+2); r.due=now+Math.round(GRAD_IVL_DAYS[r.box]*1.3)*DAY; }
+  }
+  r.reps=(r.reps||0)+1;
+  r.soon=(r.due-now)<11*MIN; // stays in the current session and recurs
+  return r;
+}
+function fmtDelta(ms){
+  if(ms<1*MIN) return "<1 мин";
+  if(ms<HR) return Math.round(ms/MIN)+" мин";
+  if(ms<DAY) return Math.round(ms/HR)+" ч";
+  const d=Math.round(ms/DAY);
+  if(d<14) return d+" дн";
+  return Math.round(d/7)+" нед";
+}
+function srsStats(){
+  const now=Date.now(), p=pool();
+  let neu=0,learning=0,young=0,mastered=0,due=0;
+  p.forEach(it=>{ const r=S.srs[key(it)];
+    if(!r){ neu++; return; }
+    if(r.due<=now) due++;
+    if(r.phase!=="review") learning++;
+    else if((r.box||1)>=MASTERED_BOX) mastered++;
+    else young++;
+  });
+  return {total:p.length,neu,learning,young,mastered,due};
+}
+function nextDueDelta(){
+  const now=Date.now(), p=pool(); let m=Infinity;
+  p.forEach(it=>{ const r=S.srs[key(it)]; if(r&&r.due>now) m=Math.min(m,r.due-now); });
+  return isFinite(m)?m:null;
+}
+function buildSrsSession(includeNew=true, early=false){
+  const now=Date.now(), p=pool(), due=[], neu=[];
+  p.forEach(it=>{ const k=key(it), r=S.srs[k];
+    if(r){ if(r.due<=now) due.push({k,d:r.due}); } else neu.push(k);
+  });
+  due.sort((a,b)=>a.d-b.d);
+  let q=due.map(x=>x.k);
+  if(includeNew) q=q.concat(shuffle(neu).slice(0,S.srsNewCap));
+  if(early && q.length===0){
+    q=p.map(it=>({k:key(it),r:S.srs[key(it)]})).filter(x=>x.r).sort((a,b)=>a.r.due-b.r.due).slice(0,10).map(x=>x.k);
+  }
+  S.srsQueue=q; S.srsFlipped=false;
+}
+function renderSrs(){
+  const host=$("#srs-inner"); host.innerHTML="";
+  const st=srsStats();
+
+  const intro=el("div","srs-intro");
+  intro.textContent="Интервальное повторение: слово возвращается через растущие промежутки — чем увереннее ответ, тем позже следующий показ. Так оно закрепляется в долговременной памяти.";
+  host.appendChild(intro);
+
+  const stats=el("div","srs-stats");
+  stats.innerHTML=`
+    <div class="stat due"><b>${st.due}</b><span>к повторению</span></div>
+    <div class="stat"><b>${st.neu}</b><span>новые</span></div>
+    <div class="stat"><b>${st.learning}</b><span>на изучении</span></div>
+    <div class="stat"><b>${st.mastered}</b><span>закреплено</span></div>`;
+  host.appendChild(stats);
+
+  const tot=Math.max(1,st.total);
+  const bar=el("div","mbar");
+  const seg=(color,n)=>{ const i=el("i"); i.style.background=color; i.style.width=(n/tot*100)+"%"; return i; };
+  bar.append(seg("var(--gold)",st.mastered),seg("var(--good)",st.young),seg("#d98b2b",st.learning),seg("transparent",st.neu));
+  host.appendChild(bar);
+  const leg=el("div","mbar-legend");
+  leg.innerHTML=`<span><i style="background:var(--gold)"></i>закреплено ${st.mastered}</span>
+    <span><i style="background:var(--good)"></i>повторяется ${st.young}</span>
+    <span><i style="background:#d98b2b"></i>на изучении ${st.learning}</span>
+    <span><i style="background:var(--line-strong)"></i>новые ${st.neu}</span>`;
+  host.appendChild(leg);
+
+  if(!S.srsQueue.length){
+    const e=el("div","empty");
+    const nd=nextDueDelta(), hasNew=st.neu>0;
+    e.innerHTML=`<div class="big">Всё повторено</div>
+      <p>${nd!=null?("Ближайшее повторение — через "+fmtDelta(nd)+"."):"На сегодня всё."}${hasNew?" Можно взять новые слова.":""}</p>`;
+    if(hasNew){ const b=el("button","btn-primary"); b.textContent="Учить новые"; b.onclick=()=>{ buildSrsSession(true,false); renderSrs(); }; e.appendChild(b); }
+    const b2=el("button","toggle"); b2.style.marginLeft="8px"; b2.textContent="Повторить досрочно";
+    b2.onclick=()=>{ buildSrsSession(false,true); renderSrs(); }; e.appendChild(b2);
+    host.appendChild(e); return;
+  }
+
+  const it=ITEM_MAP.get(S.srsQueue[0]);
+  const rec=S.srs[key(it)]||srsNewRec();
+  const now=Date.now();
+  const tr=it[S.lang]||"—", other=S.lang==="ru"?it.en:it.ru, otherLbl=S.lang==="ru"?"EN":"RU";
+
+  const card=el("div","srs-card");
+  card.innerHTML=`<div class="spine"></div>
+    <div class="eyebrow" style="margin-left:6px">${escapeHtml(it.c)}${it.core?' · Важное':''}</div>
+    <div class="srs-term ${lenClass(it.de)}">${escapeHtml(it.de)}</div>
+    ${S.srsFlipped?`
+      <div class="srs-answer">
+        <div class="srs-tr">${escapeHtml(tr)}</div>
+        ${other?`<div class="srs-alt"><span class="lbl">${otherLbl}</span>${escapeHtml(other)}</div>`:''}
+        ${it.note?`<div class="srs-note">${escapeHtml(it.note)}</div>`:''}
+      </div>`:`<div class="srs-reveal-hint">Нажмите, чтобы увидеть ответ и оценить</div>`}`;
+  if(!S.srsFlipped){ card.onclick=()=>{ S.srsFlipped=true; renderSrs(); }; }
+  host.appendChild(card);
+
+  if(S.srsFlipped){
+    const grades=el("div","grades");
+    const mk=(g,label,cls)=>{
+      const pr=computeSchedule(rec,g,now);
+      const b=el("button","grade "+cls);
+      b.innerHTML=`<span class="g-lbl">${label}</span><span class="g-ivl">${fmtDelta(pr.due-now)}</span>`;
+      b.onclick=()=>gradeSrs(g); return b;
+    };
+    grades.append(mk("again","Снова","again"),mk("hard","Трудно","hard"),mk("good","Хорошо","good"),mk("easy","Легко","easy"));
+    host.appendChild(grades);
+    const kb=el("div","srs-kbd"); kb.innerHTML=`<kbd>1</kbd> снова · <kbd>2</kbd> трудно · <kbd>3</kbd> хорошо · <kbd>4</kbd> легко`;
+    host.appendChild(kb);
+  } else {
+    const kb=el("div","srs-kbd"); kb.innerHTML=`<kbd>Space</kbd> показать ответ`; host.appendChild(kb);
+  }
+
+  const foot=el("div","srs-foot");
+  foot.innerHTML=`<span>Осталось в сессии: ${S.srsQueue.length}</span><span>${it.core?'★ важное':''}</span>`;
+  host.appendChild(foot);
+}
+function gradeSrs(g){
+  if(!S.srsQueue.length) return;
+  const it=ITEM_MAP.get(S.srsQueue[0]), k=key(it);
+  const prev=S.srs[k]||srsNewRec(), wasReview=prev.phase==="review", now=Date.now();
+  const nr=computeSchedule(prev,g,now);
+  S.srs[k]=nr;
+  if(nr.phase==="review" && g!=="again") S.known[k]=true;
+  if(g==="again" && wasReview) delete S.known[k];
+  saveKnown(); saveSrs(); updateHeader();
+  S.srsQueue.shift();
+  if(nr.soon){ const pos=Math.min(S.srsQueue.length,4); S.srsQueue.splice(pos,0,k); }
+  S.srsFlipped=false;
+  renderSrs();
+}
+
+/* ---------------- init ---------------- */
+async function init(){
+  $("#p-total").textContent = DATA.total;
+  $("#f-total").textContent = DATA.total;
+  $("#f-cats").textContent = DATA.cats.length;
+
+  try{ const k=await Store.get(K_KNOWN); if(k){ const o=JSON.parse(k); if(o&&typeof o==="object") S.known=Object.assign(Object.create(null),o); } }catch(e){}
+  try{ const s=await Store.get(K_SRS); if(s){ const o=JSON.parse(s); if(o&&typeof o==="object") S.srs=Object.assign(Object.create(null),o); } }catch(e){}
+  try{ const b=await Store.get(K_BEST); if(b) S.quiz.best=parseInt(b,10)||0; }catch(e){}
+  try{ const l=await Store.get(K_LANG); if(l==="en"||l==="ru") S.lang=l; }catch(e){}
+
+  $("#lang-ru").setAttribute("aria-pressed", S.lang==="ru");
+  $("#lang-en").setAttribute("aria-pressed", S.lang==="en");
+
+  buildFilters();
+  bind();
+  updateHeader();
+  setMode("cards");
+}
+init();
+</script>
+</body>
+</html>
