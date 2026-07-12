@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Leben in Deutschland — Тренажёр лексики</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#e9e7e0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Leben in DE">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -223,13 +232,25 @@ footer b{color:var(--ink-soft);font-weight:600}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
 
 @media (max-width:560px){
-  .face{padding:22px 22px 18px 30px}
-  .quiz-card{padding:22px 20px 20px 28px}
+  .topbar{padding:14px 0 11px}
+  .modes{margin-top:12px}
+  .filters{padding-top:12px;padding-bottom:2px}
+  main{padding:14px 0 44px;min-height:0}
+  .face{padding:20px 20px 16px 28px}
+  .card{min-height:clamp(200px,38svh,320px)}
+  .card-tools{margin-bottom:12px}
+  .controls{margin-top:14px;gap:8px}
+  .counter{margin-top:10px}
+  .dots{display:none}
+  .quiz-card{padding:20px 18px 18px 26px}
+  .options{margin-top:16px}
+  .opt{padding:12px 14px}
   .row{grid-template-columns:1fr;gap:3px;padding:12px 4px}
   .row .rn{text-align:left}
   .head-tools{width:100%;margin-left:0;justify-content:space-between}
   .progress-box{flex:1;min-width:0}
   .kbd-hint{display:none}
+  .srs-card{min-height:clamp(160px,26svh,240px)}
 }
 @media (prefers-reduced-motion:reduce){
   .card{transition:none}
@@ -280,8 +301,21 @@ footer b{color:var(--ink-soft);font-weight:600}
 .srs-kbd{text-align:center;margin-top:14px;font-family:var(--mono);font-size:.7rem;color:var(--ink-faint)}
 .srs-kbd kbd{background:var(--paper-raised);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;font-size:.68rem}
 @media (max-width:480px){
-  .grades{grid-template-columns:repeat(2,1fr)}
+  .title p{display:none}
+  .judge{padding:0 14px}
+  .srs-intro{display:none}
+  .srs-stats{margin-bottom:10px}
+  .stat{min-width:70px;padding:7px 10px}
+  .mbar-legend{display:none}
+  .mbar{margin-bottom:16px}
+  .grades{gap:6px}
+  .grade{padding:8px 2px 6px}
+  .grade .g-lbl{font-size:.82rem}
+  .grade .g-ivl{font-size:.62rem}
   .srs-kbd{display:none}
+}
+@media (display-mode:standalone){
+  body{padding-top:env(safe-area-inset-top)}
 }
 </style>
 </head>
