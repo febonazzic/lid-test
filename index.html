@@ -1121,7 +1121,7 @@ const QDATA=[{"id":"DE-1","st":"g","q":"In Deutschland dürfen Menschen offen et
    `const QDATA = [...]` is injected by the builder immediately before this.
    Each QDATA item: {id, st:'g'|'b', q, qru, opts:[4], oru:[4], ci, img, note?, nru?}
    ========================================================================= */
-const K_QCORR = "lid.q.correct.v1", K_EXAMBEST = "lid.exam.best.v1";
+const K_QCORR = "lid.q.correct.v1", K_EXAMBEST = "lid.exam.best.v1", K_EXAMINSTANT = "lid.exam.instant.v1";
 let ACTIVE_SECTION = "questions";
 
 const QS = {
@@ -1131,6 +1131,7 @@ const QS = {
   exam: { items: [], idx: 0, done: false },
   correct: Object.create(null),   // id -> true (answered correctly at least once)
   examBest: 0,
+  examInstant: true,              // exam: reveal correct/wrong right after each pick
 };
 
 const GEN = QDATA.filter(q => q.st === "g");
@@ -1139,6 +1140,7 @@ const QBYID = new Map(QDATA.map(q => [q.id, q]));
 
 function qSaveCorrect(){ Store.set(K_QCORR, JSON.stringify(QS.correct)); }
 function qSaveBest(){ Store.set(K_EXAMBEST, String(QS.examBest)); }
+function qSaveInstant(){ Store.set(K_EXAMINSTANT, QS.examInstant ? "1" : "0"); }
 
 /* ---------------- header (questions context) ---------------- */
 function qHeader(){
@@ -1165,7 +1167,7 @@ function questionCardHTML(q, optOrder, sel, feedback){
     else if(isSel){ cls += " sel"; }
     const ic = feedback ? (isCorrect ? "✓" : (isSel ? "✕" : "")) : "";
     const ru = q.oru ? q.oru[oi] : "";
-    return `<button class="opt" data-oi="${oi}"${feedback ? " disabled" : ""}>
+    return `<button class="${cls}" data-oi="${oi}"${feedback ? " disabled" : ""}>
         <span class="opt-txt"><span class="opt-de">${escapeHtml(q.opts[oi])}</span><span class="opt-ru" hidden>${escapeHtml(ru)}</span></span>
         <span class="ic">${ic}</span></button>`;
   }).join("");
@@ -1267,9 +1269,13 @@ function startExam(){
 function examStartCard(){
   const e = el("div","empty");
   e.innerHTML = `<div class="big">Пробный экзамен</div>
-    <p>33 вопроса: <b>30 общих + 3 по Берлину</b>, как на настоящем тесте. Порог сдачи — <b>17 из 33</b>. Перевод каждого вопроса доступен по кнопке. Личный рекорд: <b>${QS.examBest}</b> / 33.</p>`;
+    <p>33 вопроса: <b>30 общих + 3 по Берлину</b>, как на настоящем тесте. Порог сдачи — <b>17 из 33</b>. Перевод каждого вопроса доступен по кнопке. Личный рекорд: <b>${QS.examBest}</b> / 33.</p>
+    <div style="margin:0 0 18px"><button class="toggle" id="ex-instant" aria-pressed="${QS.examInstant}"><span class="dot"></span>Показывать ответ сразу</button></div>`;
   const b = el("button","btn-primary"); b.textContent = "Начать экзамен"; b.onclick = startExam;
-  e.appendChild(b); return e;
+  e.appendChild(b);
+  const tg = e.querySelector("#ex-instant");
+  tg.onclick = () => { QS.examInstant = !QS.examInstant; tg.setAttribute("aria-pressed", QS.examInstant); qSaveInstant(); };
+  return e;
 }
 function examResultCard(){
   const ex = QS.exam, score = examScore(), pass = score >= 17;
@@ -1308,18 +1314,21 @@ function renderExam(){
   if(ex.done){ host.appendChild(examResultCard()); return; }
   const item = ex.items[ex.idx], q = QBYID.get(item.id);
   const answered = ex.items.filter(i => i.pick >= 0).length;
+  const showFb = QS.examInstant && item.pick >= 0;   // reveal correct/wrong for the current, already-answered question
+  const isLast = ex.idx === ex.items.length - 1;
   const wrap = el("div");
   wrap.innerHTML =
     `<div class="exam-bar">
        <div class="track"><i style="width:${(ex.idx+1)/ex.items.length*100}%"></i></div>
        <span class="lbl">${ex.idx+1} / ${ex.items.length} · отвечено ${answered}</span>
      </div>`
-    + questionCardHTML(q, item.optOrder, item.pick, false)
+    + questionCardHTML(q, item.optOrder, item.pick, showFb)
     + `<div class="exam-nav">
          <button class="nav-btn" id="e-prev" aria-label="Назад">‹</button>
          <button class="btn-primary" id="e-finish">Завершить экзамен</button>
          <button class="nav-btn" id="e-next" aria-label="Вперёд">›</button>
-       </div>`;
+       </div>`
+    + (showFb && !isLast ? '<div style="text-align:center;margin-top:16px"><button class="btn-primary" id="e-go">Дальше →</button></div>' : '');
   const dots = el("div","exam-dots");
   ex.items.forEach((it,i) => {
     const d = el("i"); d.textContent = i+1;
@@ -1330,9 +1339,16 @@ function renderExam(){
   });
   host.appendChild(wrap); host.appendChild(dots);
   wireRevealTr(wrap);
-  wrap.querySelectorAll(".opt").forEach(b => b.onclick = () => { item.pick = +b.dataset.oi; renderExam(); });
+  if(!showFb){
+    wrap.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+      item.pick = +b.dataset.oi;
+      if(QS.examInstant && item.pick === q.ci){ QS.correct[q.id] = true; qSaveCorrect(); updateHeaderCtx(); }
+      renderExam();
+    });
+  }
   $("#e-prev").onclick = () => { ex.idx = (ex.idx - 1 + ex.items.length) % ex.items.length; renderExam(); };
   $("#e-next").onclick = () => { ex.idx = (ex.idx + 1) % ex.items.length; renderExam(); };
+  const go = $("#e-go"); if(go) go.onclick = () => { ex.idx = Math.min(ex.idx + 1, ex.items.length - 1); renderExam(); };
   $("#e-finish").onclick = () => {
     const blank = ex.items.filter(i => i.pick < 0).length;
     if(blank > 0 && !confirm(`Без ответа: ${blank}. Завершить всё равно? Пустые засчитаются как неверные.`)) return;
@@ -1452,6 +1468,7 @@ function setQMode(m){
 async function init2(){
   try{ const c = await Store.get(K_QCORR); if(c){ const o = JSON.parse(c); if(o && typeof o === "object") QS.correct = Object.assign(Object.create(null), o); } }catch(e){}
   try{ const b = await Store.get(K_EXAMBEST); if(b) QS.examBest = parseInt(b,10) || 0; }catch(e){}
+  try{ const fb = await Store.get(K_EXAMINSTANT); if(fb === "0") QS.examInstant = false; }catch(e){}
 
   $("#sec-tab-q").onclick = () => setSection("questions");
   $("#sec-tab-w").onclick = () => setSection("words");
